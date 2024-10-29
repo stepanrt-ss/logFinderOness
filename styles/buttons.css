@@ -1,0 +1,13 @@
+button {
+    background-color: #d2d4d7;
+    color: #222222;
+    border: none;
+    border-radius: 10px;
+    font-family: "Roboto", sans-serif;
+    transition: background-color 0.2s linear;
+}
+
+button:hover {
+    background-color: #979797;
+    cursor: pointer;
+}

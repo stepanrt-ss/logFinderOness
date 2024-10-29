@@ -1,0 +1,20 @@
+input {
+    outline: none;
+    background-color: #363738;
+    border-radius: 10px;
+    color: #d2d4d7;
+    font-family: "Roboto", sans-serif;
+    border: 1px solid #363738;
+
+    transition: border 0.2s linear;
+
+}
+
+input:hover {
+    border: 1px solid #71aaeb;
+
+}
+
+input:focus {
+    border: 1px solid #71aaeb;
+}
