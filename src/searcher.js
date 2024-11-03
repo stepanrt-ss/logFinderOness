@@ -7,6 +7,7 @@ document.getElementById('start-search').addEventListener('click', function () {
     const check_global = document.getElementById('use-global-chat').checked
     const check_local = document.getElementById('use-local-chat').checked
     const check_commands = document.getElementById('use-commands-chat').checked
+    const check_discipline_commands = document.getElementById('use-discipline-commands-chat').checked
     const check_pm = document.getElementById('use-pm-chat').checked
 
     console.log(first_date)
@@ -19,6 +20,7 @@ document.getElementById('start-search').addEventListener('click', function () {
         "check_global": check_global,
         "check_local": check_local,
         "check_commands": check_commands,
+        "check_discipline_commands": check_discipline_commands,
         "check_pm": check_pm
     })
 
