@@ -25,8 +25,6 @@ def write_data():
     return jsonify({'message': 'success'}), 200
 
 
-
-
 @app.route('/getLogs', methods=['POST'])
 def send_data():
     global nicks
