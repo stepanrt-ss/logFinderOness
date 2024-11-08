@@ -1,7 +1,7 @@
 document.getElementById('start-search').addEventListener('click', function () {
 
     const first_date = document.getElementById('first-date').value
-    // const second_date = document.getElementById('second-date').value
+    const second_date = document.getElementById('second-date').value
     // const plus_keys = document.getElementById('input-plus-keys').value
     const nicknames = document.getElementById('input-nickname').value
     const check_global = document.getElementById('use-global-chat').checked
@@ -10,25 +10,40 @@ document.getElementById('start-search').addEventListener('click', function () {
     const check_discipline_commands = document.getElementById('use-discipline-commands-chat').checked
     const check_pm = document.getElementById('use-pm-chat').checked
 
-    console.log(first_date)
+    let list_phrases = []
+
+    if (check_global) {
+        list_phrases.push('[G]')
+    }
+
+    if (check_local) {
+        list_phrases.push('[L]')
+    }
+
+    if (check_commands) {
+        list_phrases.push('/')
+    }
+
+    if (check_discipline_commands) {
+        list_phrases.push('/warn ', '/tempmute ', '/mute ', '/kick ', '/tempban ', '/ban ')
+    }
+
+    if (check_pm) {
+        list_phrases.push('/pm ', '/m ', '/r ', '/msg ', '/w ', '/tell ')
+    }
 
     const dataSend = JSON.stringify({
         "first_date": first_date,
-        // "second_data": second_date,
-        // "plus_keys": plus_keys,
+        "second_date": second_date,
         "nicknames": nicknames,
-        "check_global": check_global,
-        "check_local": check_local,
-        "check_commands": check_commands,
-        "check_discipline_commands": check_discipline_commands,
-        "check_pm": check_pm
+        "data_search": list_phrases
     })
 
     fetch('public/loading.html')
         .then(response => response.text())
         .then(html => document.getElementById('loading').innerHTML = html)
 
-    fetch('http://194.87.43.6:8041/getLogs', {
+    fetch('http://localhost:5000/getLogs', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
