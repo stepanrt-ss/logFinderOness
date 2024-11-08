@@ -12,9 +12,9 @@ document.getElementById('start-search').addEventListener('click', function () {
 
     let list_phrases = []
 
-    // if (check_global) {
-    //     list_phrases.push('[G]')
-    // }
+    if (check_global) {
+        list_phrases.push('[G]')
+    }
 
     if (check_local) {
         list_phrases.push('[L]')
@@ -24,9 +24,9 @@ document.getElementById('start-search').addEventListener('click', function () {
         list_phrases.push('/')
     }
 
-    // if (check_discipline_commands) {
-    //     list_phrases.push('/warn ', '/tempmute ', '/mute ', '/kick ', '/tempban ', '/ban ')
-    // }
+    if (check_discipline_commands) {
+        list_phrases.push('/warn ', '/tempmute ', '/mute ', '/kick ', '/tempban ', '/ban ')
+    }
 
     if (check_pm) {
         list_phrases.push('/pm ', '/m ', '/r ', '/msg ', '/w ', '/tell ')
