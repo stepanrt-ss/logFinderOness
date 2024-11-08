@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import FinderLogs
 import time
+import json
 
 
 app = Flask(__name__)
@@ -12,6 +13,21 @@ list_checker = []
 nicks = []
 finder = FinderLogs.Finder()
 
+
+@app.route('/login', methods=['POST'])
+def authorization():
+    try:
+        response = request.json
+        name = response.get('login')
+        password = response.get('password')
+        with open(f'{name}.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            if data['login'] == name and data['password'] == password:
+                return jsonify({'message': 'success'}), 200
+            else:
+                return jsonify({'message': 'wrong pass or login'}), 200
+    except:
+        return jsonify({'message': 'error'}), 400
 
 @app.route('/writePosPlayer', methods=['POST'])
 def write_data():
