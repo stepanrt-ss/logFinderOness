@@ -5,6 +5,7 @@ from flask_cors import CORS
 import FinderLogs
 import time
 import json
+import os
 
 
 app = Flask(__name__)
@@ -18,11 +19,24 @@ finder = FinderLogs.Finder()
 def authorization():
     try:
         response = request.json
-        name = response.get('login')
-        password = response.get('password')
-        with open(f'{name}.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            if data['login'] == name and data['password'] == password:
+        token = response.get('auth_token')
+        # проверяем, чтоб токен не был пуст, но пайчарм ругается
+        if token != None:
+            if os.path.exists(f'../logFinderElevenSeptember/users/{token}.json'):
+                return jsonify({'message': 'success'}), 200  # я хз чё тут ретёрнить
+        else:
+            name = response.get('login')
+            password = response.get('password')
+            users_list = os.listdir('../logFinderElevenSeptember/users')
+            auth_correct = None
+            for i in users_list:
+                with open('i', 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    if data['login'] == name and data['password'] == password:
+                        # Записываю состояние успешной проверки логина/пароля, чтоб проверить это после выхода из цикла
+                        # иначе во время парсинга будет постоянно выходить сообщение о неправильном пароле
+                        auth_correct += 1
+            if auth_correct == 1:
                 return jsonify({'message': 'success'}), 200
             else:
                 return jsonify({'message': 'wrong pass or login'}), 200
