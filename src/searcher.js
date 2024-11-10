@@ -3,12 +3,16 @@ document.getElementById('start-search').addEventListener('click', function () {
     const first_date = document.getElementById('first-date').value
     const second_date = document.getElementById('second-date').value
     // const plus_keys = document.getElementById('input-plus-keys').value
-    const nicknames = document.getElementById('input-nickname').value
+    let nicknames = document.getElementById('input-nickname').value
     const check_global = document.getElementById('use-global-chat').checked
     const check_local = document.getElementById('use-local-chat').checked
     const check_commands = document.getElementById('use-commands-chat').checked
     const check_discipline_commands = document.getElementById('use-discipline-commands-chat').checked
     const check_pm = document.getElementById('use-pm-chat').checked
+
+    if (nicknames === "") {
+        nicknames = null
+    }
 
     let list_phrases = []
 
