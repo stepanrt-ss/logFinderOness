@@ -20,28 +20,19 @@ def authorization():
     try:
         response = request.json
         token = response.get('auth_token')
-        # проверяем, чтоб токен не был пуст, но пайчарм ругается
-        if token != None:
-            if os.path.exists(f'../logFinderElevenSeptember/users/{token}.json'):
-                return jsonify({'message': 'success'}), 200  # я хз чё тут ретёрнить
+        name = response.get('login')
+        password = response.get('password')
+        users_list = os.listdir('../logFinderElevenSeptember/users')
+        for i in users_list:
+            with open(f'{i}.json', 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                if data['login'] == name and data['password'] == password:
+                    return jsonify({'message': 'success'}), 200
         else:
-            name = response.get('login')
-            password = response.get('password')
-            users_list = os.listdir('../logFinderElevenSeptember/users')
-            auth_correct = None
-            for i in users_list:
-                with open('i', 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    if data['login'] == name and data['password'] == password:
-                        # Записываю состояние успешной проверки логина/пароля, чтоб проверить это после выхода из цикла
-                        # иначе во время парсинга будет постоянно выходить сообщение о неправильном пароле
-                        auth_correct += 1
-            if auth_correct == 1:
-                return jsonify({'message': 'success'}), 200
-            else:
-                return jsonify({'message': 'wrong pass or login'}), 200
+            return jsonify({'message': 'wrong pass or login'}), 200
     except:
         return jsonify({'message': 'error'}), 400
+
 
 @app.route('/writePosPlayer', methods=['POST'])
 def write_data():
@@ -61,13 +52,23 @@ def send_data():
     data_search = data_response.get('data_search')
     first_date = data_response.get('first_date')
     second_date = data_response.get('second_date')
-    data_nicknames = data_response.get('nicknames')
-    logs = finder.check_logs(data_search, data_nicknames, first_date, second_date)
-    print(logs)
-    if logs:
-        return jsonify({'logs': logs}), 200
+    data_nicknames = data_response.get('nicknames').split(',')
+
+    download_logs = finder.download_logs(first_date, second_date)
+    list_logs = finder.search_func(data_search, download_logs)
+    string_format = ''
+
+    if data_nicknames:
+        print(list_logs)
+        logs_with_check_nicks = finder.search_func(data_nicknames, list_logs)
+        print(logs_with_check_nicks)
+        for i in logs_with_check_nicks:
+            string_format += f'{i}\n'
+        return jsonify({'logs': string_format}), 200
     else:
-        return jsonify({'message': 'error'}), 400
+        for i in list_logs:
+            string_format += f'{i}\n'
+        return jsonify({'logs': string_format}), 200
 
 
     # if not list_checker and not nicks:
