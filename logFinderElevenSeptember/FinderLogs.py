@@ -12,9 +12,7 @@ class Finder:
 
     def search_func(self, data_search, logs):
         after_list = []
-        print(data_search)
         for element in data_search:
-            print(element)
             for day in logs:
                 for log in day.split('\n'):
                     pattern = r'{}'.format(re.escape(element))

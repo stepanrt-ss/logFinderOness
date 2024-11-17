@@ -38,7 +38,6 @@ def authorization():
 def write_data():
     response = request.json
     pos_player = response.get('data')
-    print(pos_player)
     with open('../AnB/logsPosPlayer.txt', 'a', encoding='utf-8') as f:
         f.write(f"{pos_player}\n")
 
@@ -59,9 +58,7 @@ def send_data():
     string_format = ''
 
     if data_nicknames:
-        print(list_logs)
         logs_with_check_nicks = finder.search_func(data_nicknames, list_logs)
-        print(logs_with_check_nicks)
         for i in logs_with_check_nicks:
             string_format += f'{i}\n'
         return jsonify({'logs': string_format}), 200
