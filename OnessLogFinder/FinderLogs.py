@@ -3,11 +3,14 @@ import requests
 import time
 import re
 
+from server.test import response
 
 
 class Finder:
     def __init__(self):
-        self.logs_link = 'https://logs.mcskill.net/?serverid=206&subdir=/Logs/'
+        self.logs_titan = 'https://logs.mcskill.net/index.php?serverid=50&subdir=/Logs/'
+        self.logs_phobos = 'https://logs.mcskill.net/index.php?serverid=203&subdir=/Logs'
+        self.logs_elara = 'https://logs.mcskill.net/index.php?serverid=206&subdir=/Logs/'
 
 
     def search_func(self, data_search, logs):
@@ -36,7 +39,8 @@ class Finder:
             return datetime.min  # Если не удаётся разобрать, вернуть минимальное значение
 
 
-    def download_logs(self, first_date, second_date):
+    def download_logs(self, first_date, second_date, server_id):
+        response = None
         intermediate_dates = []
         logs = []
         if second_date:
@@ -52,7 +56,12 @@ class Finder:
                 month = i.split('-')[1]
                 year = i.split('-')[0]
                 date_search = f'{day}-{month}-{year}'
-                response = requests.get(url=f"{self.logs_link}{date_search}.txt")
+                if server_id == 'HTC Titan':
+                    response = requests.get(url=f"{self.logs_titan}{date_search}.txt")
+                elif server_id == 'HTC Phobos':
+                    response = requests.get(url=f"{self.logs_phobos}{date_search}.txt")
+                elif server_id == 'HTC Elara':
+                    response = requests.get(url=f"{self.logs_elara}{date_search}.txt")
                 logs.append(response.text)
                 time.sleep(0.5)
             else:
@@ -62,6 +71,6 @@ class Finder:
             month = first_date.split('-')[1]
             year = first_date.split('-')[0]
             date_search = f'{day}-{month}-{year}'
-            response = requests.get(url=f"{self.logs_link}{date_search}.txt")
+            response = requests.get(url=f"{self.logs_elara}{date_search}.txt")
             logs.append(response.text)
             return logs

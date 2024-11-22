@@ -22,7 +22,7 @@ def authorization():
         token = response.get('auth_token')
         name = response.get('login')
         password = response.get('password')
-        users_list = os.listdir('../logFinderElevenSeptember/users')
+        users_list = os.listdir('/users')
         for i in users_list:
             with open(f'{i}.json', 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -51,9 +51,15 @@ def send_data():
     data_search = data_response.get('data_search')
     first_date = data_response.get('first_date')
     second_date = data_response.get('second_date')
-    data_nicknames = data_response.get('nicknames').split(',')
+    server_id = data_response.get('server_id')
 
-    download_logs = finder.download_logs(first_date, second_date)
+    # сервер не хавает .split Из-за сатрой версии python на нем
+    try:
+        data_nicknames = data_response.get('nicknames').split(',')
+    except:
+        data_nicknames = False
+
+    download_logs = finder.download_logs(first_date, second_date, server_id)
     list_logs = finder.search_func(data_search, download_logs)
     string_format = ''
 
@@ -74,4 +80,4 @@ def send_data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='localhost')
+    app.run(debug=True, host='194.87.43.6', port='8041')
