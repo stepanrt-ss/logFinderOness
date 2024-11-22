@@ -19,17 +19,21 @@ class Finder:
                     if re.search(pattern, log):
                         after_list.append(log)
         else:
-            after_list.sort(key=self.extract_time)
+            after_list.sort(key=self.extract_datetime)
             return after_list
 
 
     @staticmethod
-    def extract_time(log_entry):
-        if len(log_entry) < 4:
-            pass
-        else:
-            time_str = log_entry.split(' ')[1].replace(']', '')
-            return datetime.strptime(time_str, "%H:%M:%S")
+    def extract_datetime(log_entry):
+        """
+        Извлекает полную дату и время из строки лога.
+        Предполагается, что формат строки: [DD.MM.YYYY HH:MM:SS] ...
+        """
+        try:
+            date_time_str = log_entry.split(']')[0].replace('[', '')  # [13.11.2024 00:18:46] -> 13.11.2024 00:18:46
+            return datetime.strptime(date_time_str, "%d.%m.%Y %H:%M:%S")
+        except (ValueError, IndexError):
+            return datetime.min  # Если не удаётся разобрать, вернуть минимальное значение
 
 
     def download_logs(self, first_date, second_date):
