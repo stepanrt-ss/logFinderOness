@@ -4,43 +4,47 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/buttons.css">
-    <link rel="stylesheet" href="styles/inputs.css">
-    <link rel="stylesheet" href="styles/loading.css">
+    <link rel="stylesheet" type="text/css" href="styles/calendar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 
-<header class="header-container">
-    <div class="icon-container">
-        <div class="icon-text">
-            <img src="assets/icon-house.png" style="margin: 5px">
-            <img src="assets/icon-plane.png" style="margin: 5px">
-            <span>Oness.</span>
-
-        </div>
-        <div id="loading"></div>
+<header>
+    <div class="logo-container">
+        <img src="assets/icon-house.png">
+        <img src="assets/icon-plane.png" style="margin: 5px">
+        <span>Oness.</span>
     </div>
+    <div id="loading"></div>
 </header>
 <body>
     <div class="main-container">
         <div class="remote-container">
-            <div class="change-date">
+            <div class="select-server">
+                <div class="change-server">
+                    <label>
+                        <select id="select-server">
+                            <option style="border-radius: 10px">HTC Titan</option>
+                            <option>HTC Phobos</option>
+                            <option>HTC Elara</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="change-date">
+                    <label>
+                        <input type="text" id="dateRange" placeholder="Диапазон дат">
+                    </label>
+                </div>
+
+            </div>
+            <div class="input-nicknames-container">
                 <label>
-                    <input id="first-date" type="date">
-                </label>
-                <label>
-                    <input id="second-date" type="date">
+                    <input id="input-nickname" class="input-keys-plus" placeholder="Никнейм(ы) | palyer1,player2...">
                 </label>
             </div>
 
-<!--            <label>-->
-<!--                <input id="input-plus-keys" class="input-keys-plus" placeholder="Ключевое слово">-->
-<!--            </label>-->
-            <label>
-                <input id="input-nickname" class="input-keys-plus" placeholder="Никнейм(ы) | palyer1,player2...">
-            </label>
             <div class="check-boxes">
                 <label>
                     <input id="use-global-chat" type="checkbox" >
@@ -63,8 +67,10 @@
                     Личные сообщения
                 </label>
             </div>
+            <div class="start-search-button-container">
+                <button id="start-search" class="start-search">Поиск</button>
+            </div>
 
-            <button id="start-search" class="start-search">Поиск</button>
 
 
         </div>
@@ -74,6 +80,15 @@
             </label>
         </div>
     </div>
+
 </body>
 <script src="src/searcher.js"></script>
+<script src="src/calendar.js"></script>
+<script>
+    flatpickr("#dateRange", {
+        mode: "range", // Режим выбора диапазона
+        dateFormat: "Y-m-d", // Формат даты
+        locale: "ru" // Локализация (опционально)
+    });
+</script>
 </html>
