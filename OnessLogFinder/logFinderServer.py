@@ -45,10 +45,5 @@ def send_data():
         return jsonify({'logs': string_format}), 200
 
 
-    # if not list_checker and not nicks:
-    #     return jsonify({'logs': finder.download_logs(first_date=data_response.get('first_date'), second_date=None)}), 200
-    # return jsonify({'logs': finder.download_logs(first_date=data_response.get('first_date'), second_date=None)}), 200
-
-
 if __name__ == '__main__':
     app.run(debug=True, host='194.87.43.6', port='8041')

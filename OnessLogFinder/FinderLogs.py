@@ -34,7 +34,7 @@ class Finder:
             date_time_str = log_entry.split(']')[0].replace('[', '')  # [13.11.2024 00:18:46] -> 13.11.2024 00:18:46
             return datetime.strptime(date_time_str, "%d.%m.%Y %H:%M:%S")
         except (ValueError, IndexError):
-            return datetime.min  # Если не удаётся разобрать, вернуть минимальное значение
+            return datetime.min
 
 
     def download_logs(self, first_date, second_date, server_id):
