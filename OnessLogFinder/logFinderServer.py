@@ -1,18 +1,19 @@
-import re
-import requests
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import FinderLogs
-import time
-import json
-import os
-
+from OnessLogFinder.test import nickname
 
 app = Flask(__name__)
 CORS(app)
 list_checker = []
 nicks = []
 finder = FinderLogs.Finder()
+
+@app.route('/getNicks', methods=['POST'])
+def send_nicks():
+    to_json = {'HTC Titan': finder.get_list_players('HTC Titan'), 'HTC Phobos': finder.get_list_players('HTC Phobos'), 'HTC Elara': finder.get_list_players('HTC Elara')}
+
 
 
 @app.route('/getLogs', methods=['POST'])

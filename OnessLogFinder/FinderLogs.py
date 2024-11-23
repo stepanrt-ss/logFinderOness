@@ -2,13 +2,16 @@ from datetime import datetime, timedelta
 import requests
 import time
 import re
-
+from bs4 import BeautifulSoup
 
 class Finder:
     def __init__(self):
         self.logs_titan = 'https://logs.mcskill.net/index.php?serverid=50&subdir=/Logs/'
         self.logs_phobos = 'https://logs.mcskill.net/index.php?serverid=203&subdir=/Logs'
         self.logs_elara = 'https://logs.mcskill.net/index.php?serverid=206&subdir=/Logs/'
+        self.drop_titan = 'https://logs.mcskill.net/index.php?serverid=50&subdir=/Drop/Players'
+        self.drop_phobos = 'https://logs.mcskill.net/index.php?serverid=203&subdir=/Drop/Players'
+        self.drop_elara = 'https://logs.mcskill.net/index.php?serverid=206&subdir=/Drop/Players'
 
 
     def search_func(self, data_search, logs):
@@ -75,4 +78,20 @@ class Finder:
 
 
     def get_list_players(self, server_id):
-        pass
+        response = None
+        if server_id == 'HTC Titan':
+            response = requests.get(url=f"{self.drop_titan}")
+        elif server_id == 'HTC Phobos':
+            response = requests.get(url=f"{self.drop_phobos}")
+        elif server_id == 'HTC Elara':
+            response = requests.get(url=f"{self.drop_elara}")
+        soup = BeautifulSoup(response.text, 'lxml')
+        find_li = soup.find_all('li')
+        nicknames_list = []
+
+        for i in find_li:
+            nickname = str(i.text).rsplit('.')[0]
+            if nickname == '' or nickname == 'Вернуться к выбору сервера' or nickname == 'Вернуться назад':
+                pass
+            else:
+                nicknames_list.append(nickname)
