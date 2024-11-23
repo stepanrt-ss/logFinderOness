@@ -3,8 +3,6 @@ import requests
 import time
 import re
 
-from server.test import response
-
 
 class Finder:
     def __init__(self):
@@ -74,3 +72,7 @@ class Finder:
             response = requests.get(url=f"{self.logs_elara}{date_search}.txt")
             logs.append(response.text)
             return logs
+
+
+    def get_list_players(self, server_id):
+        pass

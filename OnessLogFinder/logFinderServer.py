@@ -15,35 +15,6 @@ nicks = []
 finder = FinderLogs.Finder()
 
 
-@app.route('/login', methods=['POST'])
-def authorization():
-    try:
-        response = request.json
-        token = response.get('auth_token')
-        name = response.get('login')
-        password = response.get('password')
-        users_list = os.listdir('/users')
-        for i in users_list:
-            with open(f'{i}.json', 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                if data['login'] == name and data['password'] == password:
-                    return jsonify({'message': 'success'}), 200
-        else:
-            return jsonify({'message': 'wrong pass or login'}), 200
-    except:
-        return jsonify({'message': 'error'}), 400
-
-
-@app.route('/writePosPlayer', methods=['POST'])
-def write_data():
-    response = request.json
-    pos_player = response.get('data')
-    with open('../AnB/logsPosPlayer.txt', 'a', encoding='utf-8') as f:
-        f.write(f"{pos_player}\n")
-
-    return jsonify({'message': 'success'}), 200
-
-
 @app.route('/getLogs', methods=['POST'])
 def send_data():
     global nicks
